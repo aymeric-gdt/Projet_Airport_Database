@@ -1,0 +1,5 @@
+test_int,test_varchar,test_float,test_bool
+2,on va voir,2.7,0
+6,on va,2.7,1
+7,ok va voir,2.2,0
+9,pefgyag,2.7,0

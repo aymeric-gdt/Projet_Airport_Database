@@ -1,0 +1,8 @@
+# Ignorer les fichiers .env
+.env
+
+# Optionnel : Ignorer tous les fichiers .env de sous-dossiers
+**/.env
+
+# Si tu utilises un fichier .env.example pour partager la structure sans les valeurs réelles, ne pas l'ignorer
+!.env.example

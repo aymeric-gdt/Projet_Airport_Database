@@ -20,17 +20,14 @@ def extract_data(file_path:str,_types:list[type]):
                     values[i] = values[i].replace('Z','')
                     values[i] = values[i].split('T')
                     values[i][0] = values[i][0].split('-')
-                    y,d,m = values[i][0]
+                    y,m,d = values[i][0]
                     values[i][1] = values[i][1].split(':')
-                    h,m,s = values[i][1]
-                    with open('log.txt','w') as f:
-                        f.write(f'{y} {m} {d} {h} {m} {s}\n')
-                    values[i] = datetime(int(y),int(m),int(d),int(h),int(m),int(s))
+                    h,mn,s = values[i][1]
+                    values[i] = datetime(int(y),int(m),int(d),int(h),int(mn),int(s))
                     print(values[i])
                 else:
                     values[i] = _types[i](values[i])
             except Exception as e:
-                print(e)
                 values[i] = None
         list_values.append(tuple(values))
     

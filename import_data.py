@@ -24,7 +24,6 @@ def extract_data(file_path:str,_types:list[type]):
                     values[i][1] = values[i][1].split(':')
                     h,mn,s = values[i][1]
                     values[i] = datetime(int(y),int(m),int(d),int(h),int(mn),int(s))
-                    print(values[i])
                 else:
                     values[i] = _types[i](values[i])
             except Exception as e:
@@ -47,8 +46,8 @@ instance = AlwaysDataInterface(HOST, USER, PASSWORD, DATABASE)
 args, values = extract_data("./airport_data/flights.txt",[int,int,int,int,int,int,int,int,int,str,int,str,str,str,int,int,int,int,datetime])
 # year,month,day,dep_time,sched_dep_time,dep_delay,arr_time,sched_arr_time,arr_delay,carrier,flight,tailnum,origin,dest,air_time,distance,hour,minute,time_hour
 # instance.insert_values('Airline',args, values)
-# print(args)
-# print(values)
+print(args)
+print(values)
 #instance.insert_values('test',args, values)
 #print(instance.custom_command('SELECT * FROM Airport WHERE'))
 instance.close_connection()

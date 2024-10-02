@@ -2,17 +2,7 @@ from classes import AlwaysDataInterface
 import os
 from dotenv import load_dotenv
 
-dict_conv = {
-    'str':lambda text:text,
-    'int':lambda text:int(text),
-    'float':lambda text:float(text),
-    'bool':lambda text:int(text),
-}
-
-def extract_data(file_path:str,conv:list[str]):
-    formater = []
-    for type_col in conv:
-        formater.append(dict_conv[type_col])
+def extract_data(file_path:str,_types:list[type]):
 
     with open(file_path,'r') as f:
         data = f.readlines()
@@ -24,7 +14,10 @@ def extract_data(file_path:str,conv:list[str]):
     for text in data:
         values = text.replace('\n','').split(',')
         for i in range(nb_args):
-            values[i] = formater[i](values[i])
+            try:
+                values[i] = _types[i](values[i])
+            except:
+                values[i] = None
         list_values.append(tuple(values))
     
     return args, list_values
@@ -40,8 +33,9 @@ DATABASE = os.getenv('DATABASE')
 instance = AlwaysDataInterface(HOST, USER, PASSWORD, DATABASE)
 table_test = instance.get_table("test")
 print(table_test)
-#args, values = extract_data("./airport_data/test.txt",['int','str','float','bool'])
-#print(args)
-#print(values)
+args, values = extract_data("./airport_data/planes.txt",[str,int,str,str,str,int,int,str,str])
+instance.insert_values('planes')
+print(args)
+print(values)
 #instance.insert_values('test',args, values)
 instance.close_connection()

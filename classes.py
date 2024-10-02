@@ -44,6 +44,9 @@ class AlwaysDataInterface:
                     print(f"Erreur survenue : {e}")
 
 
+    def custom_command(self, command, getOrInsert=False):
+        return self.__request([command],getOrInsert)
+    
     def get_table(self,table_name:str):
         return self.__request([f"SELECT * FROM {table_name}"], False)
 

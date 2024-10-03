@@ -106,7 +106,7 @@ instance = AlwaysDataInterface(HOST, USER, PASSWORD, DATABASE)
 
 #     values.append(value)
 
-instance.insert_values('Weather',args, values)
+# instance.insert_values('Weather',args, values)
 
 # print(args)
 # print(values)

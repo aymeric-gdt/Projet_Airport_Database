@@ -200,8 +200,8 @@ class MySQLDataApp:
                     querys.append(st.text_area("Nombre de vols par destination classé par le nom de la destination, ordre alphabétique", 'SELECT COUNT(*) as nb_vols, Destination.name as DestinationName FROM Flight INNER JOIN Airport as Destination ON Destination.faa = Flight.dest GROUP BY Flight.dest ORDER BY DestinationName;'))
                 case "q6":
                     querys.append(st.text_area("Liste des Airlines avec le nombre de aéroports d'origines d'ou elles opérent", 'SELECT COUNT(DISTINCT Flight.origin) AS Origins, Airline.name, Airline.carrier FROM Airline INNER JOIN Flight ON Flight.carrier = Airline.carrier GROUP BY Airline.carrier ORDER BY Origins;'))
-                    querys.append(st.text_area("Liste des origines de chaque Airline classé par Airline ", "SELECT DISTINCT Flight.origin AS Origins, Airline.name FROM Airline INNER JOIN Flight ON Flight.carrier = Airline.carrier ORDER BY Flight.Carrier;"))
-                    querys.append(st.text_area("Liste des destinations de chaque Airline classé par Airline", 'SELECT DISTINCT Flight.dest , Airline.name FROM Airline INNER JOIN Flight ON Flight.carrier = Airline.carrier ORDER BY Flight.Carrier;'))
+                    querys.append(st.text_area("Liste des aéroports d'origine de chaque Airline classé par Airline ", 'SELECT DISTINCT Flight.origin AS Origins, Airline.name as Airline, Airport.name AS Airport FROM Airline INNER JOIN Flight ON Flight.carrier = Airline.carrier INNER JOIN Airport ON Airport.faa = Flight.origin ORDER BY Flight.Carrier;'))
+                    querys.append(st.text_area("Liste des aéroports destination de chaque Airline classé par Airline", 'SELECT DISTINCT Flight.dest , Airline.name as Airline, Airport.name AS Airport FROM Airline INNER JOIN Flight ON Flight.carrier = Airline.carrier INNER JOIN Airport ON Airport.faa = Flight.dest ORDER BY Flight.Carrier;'))
                 case "q7":
                     querys.append(st.text_area("Aéroport(destination) monopolisé par une Airline", 'SELECT Airport.name as airport_name, Airline.name as airline_name FROM Flight INNER JOIN Airport ON Airport.faa = Flight.dest INNER JOIN Airline ON Airline.carrier = Flight.carrier GROUP BY Flight.dest HAVING COUNT(DISTINCT Flight.carrier) = 1;'))
                 case "q8":
@@ -282,17 +282,17 @@ class MySQLDataApp:
                 case "q6":
                     self.hist_data(data[0]["name"],data[0]["Origins"], "Liste des Airlines avec le nombre de aéroports d'origines d'ou elles opérent", details=3)
                     
-                    airline_list = data[1]['name'].unique().tolist()
+                    airline_list = data[1]['Airline'].unique().tolist()
                     selected_airline = st.selectbox('Sélectionnez une Airline', airline_list)
-                    filtered_data = data[1][data[1]['name'] == selected_airline]
+                    filtered_data = data[1][data[1]['Airline'] == selected_airline]
                     st.text(f"Liste des origines de {selected_airline}")
-                    st.write(filtered_data["Origins"])
+                    st.write(filtered_data["Airport"])
                     
-                    airline_list2 = data[2]['name'].unique().tolist()
+                    airline_list2 = data[2]['Airline'].unique().tolist()
                     selected_airline2 = st.selectbox('Sélectionnez une Airline x2', airline_list2)
-                    filtered_data2 = data[2][data[2]['name'] == selected_airline2]
+                    filtered_data2 = data[2][data[2]['Airline'] == selected_airline2]
                     st.text(f"Liste des destinations de {selected_airline2}")
-                    st.write(filtered_data2["dest"])
+                    st.write(filtered_data2["Airport"])
                 case "q7":
                     st.write(data[0])
                 case "q8":
